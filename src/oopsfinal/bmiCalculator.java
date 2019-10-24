@@ -1,4 +1,4 @@
-package BMI;
+package oopsfinal;
 
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -6,7 +6,9 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,7 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-public class bmiCalculator extends JFrame {
+public class bmiCalculator extends JFrame implements Check {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtName;
@@ -26,14 +28,16 @@ public class bmiCalculator extends JFrame {
 	private JTextField txtFeet;
 	private JTextField txtInches;
 	private JTextField txtWeight;
+	private JComboBox <String> genderData;
 
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					bmiCalculator frame = new bmiCalculator();
-					frame.setVisible(true);
+					Validation frame2 = new Validation();
+					frame2.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -44,6 +48,7 @@ public class bmiCalculator extends JFrame {
 	
 	public bmiCalculator() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,9 +65,7 @@ public class bmiCalculator extends JFrame {
 			public void actionPerformed(ActionEvent action1) {
 				int feet, inches;
 				double totalinches;
-				double weight;
-				double bmi;
-				
+				double weight , bmi;
 				if (txtName.getText().equals("")) {
 					JOptionPane.showMessageDialog(null,"You left the name blank.");
 					txtName.grabFocus();
@@ -115,8 +118,10 @@ public class bmiCalculator extends JFrame {
 				Component frame = null;
 				int cmheight = (int) (totalinches*totalinches);
 				Object message = weight/(cmheight);
+				bmi = weight/cmheight;
 				JOptionPane.showMessageDialog(frame, message);
-				
+				CheckBmi(bmi);
+				//GenderAnalysis(bmi,genderData);
 				
 			}
 		});
@@ -137,7 +142,7 @@ public class bmiCalculator extends JFrame {
 		contentPane.add(lblName);
 		
 		JLabel lblHeight = new JLabel("Height");
-		lblHeight.setBounds(21, 136, 46, 14);
+		lblHeight.setBounds(21, 136, 60, 14);
 		contentPane.add(lblHeight);
 		
 		txtFeet = new JTextField();
@@ -170,7 +175,7 @@ public class bmiCalculator extends JFrame {
 		contentPane.add(txtrResults);
 		
 		JLabel lblWeight = new JLabel("Weight");
-		lblWeight.setBounds(21, 164, 46, 14);
+		lblWeight.setBounds(21, 164, 60, 14);
 		contentPane.add(lblWeight);
 		
 		txtWeight = new JTextField();
@@ -180,8 +185,15 @@ public class bmiCalculator extends JFrame {
 		contentPane.add(txtWeight);
 		
 		JLabel lblLb = new JLabel("Kg");
-		lblLb.setBounds(121, 164, 46, 14);
+		lblLb.setBounds(121, 164, 50, 20 );
 		contentPane.add(lblLb);
+		
+		genderData = new JComboBox<String>();
+		genderData.setBounds(71, 200, 114, 20);
+		contentPane.add(genderData);
+		genderData.addItem("Male");
+		genderData.addItem("Female");
+		
 	}
 	private static boolean isNumber(String n) {
 		try {
@@ -191,5 +203,39 @@ public class bmiCalculator extends JFrame {
 		catch (NumberFormatException e) {
 			return false;
 		}
+	}
+
+
+	
+	public void CheckBmi(double data) {
+		if(data < 18.5) {
+			JOptionPane.showMessageDialog(null,"You are under_weight");
+		}
+		else if(data >= 18.5 && data<=24.9) {
+			JOptionPane.showMessageDialog(null,"You have a good BMI");
+		}
+		else if(data>25 && data <= 29.9) {
+			JOptionPane.showMessageDialog(null,"You are over_weight");
+		}
+		else if(data >= 30) {
+			JOptionPane.showMessageDialog(null,"You are Obese");
+		}
+		else {
+			JOptionPane.showMessageDialog(null,"You are super_Obese");
+		}
+		
+	}
+
+	public void GenderAnalysis(double data, String gender) {
+		if(gender.equals("Female")) {
+			data-= 1.6;
+			CheckBmi(data);
+		}
+		
+	}
+
+	public void dataVisualisation() {
+		// TODO Auto-generated method stub
+		
 	}
 }
