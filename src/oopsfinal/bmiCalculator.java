@@ -63,9 +63,7 @@ public class bmiCalculator extends JFrame implements Check {
 		JButton btnNewButton = new JButton("Submit");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent action1) {
-				int feet, inches;
-				double totalinches;
-				double weight , bmi;
+				float bmi , totalinches , feet,inches,weight;
 				if (txtName.getText().equals("")) {
 					JOptionPane.showMessageDialog(null,"You left the name blank.");
 					txtName.grabFocus();
@@ -121,7 +119,7 @@ public class bmiCalculator extends JFrame implements Check {
 				bmi = weight/cmheight;
 				JOptionPane.showMessageDialog(frame, message);
 				CheckBmi(bmi);
-				//GenderAnalysis(bmi,genderData);
+				GenderAnalysis(bmi,genderData);
 				
 			}
 		});
@@ -226,9 +224,13 @@ public class bmiCalculator extends JFrame implements Check {
 		
 	}
 
-	public void GenderAnalysis(double data, String gender) {
-		if(gender.equals("Female")) {
+	@SuppressWarnings("unlikely-arg-type")
+	public void GenderAnalysis(double data, JComboBox<String> genderData2) {
+		if(genderData2.equals("Female")) {
 			data-= 1.6;
+			CheckBmi(data);
+		}
+		if(genderData2.equals("Male")) {
 			CheckBmi(data);
 		}
 		
@@ -237,5 +239,21 @@ public class bmiCalculator extends JFrame implements Check {
 	public void dataVisualisation() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public double Calculate(int feet, int inches) {
+		double totalinches;
+		double weight = 0 , bmi;
+		totalinches = (feet*12 + inches)* .0254f ;
+		Component frame = null;
+		int cmheight = (int) (totalinches*totalinches);
+		Object message = weight/(cmheight);
+		bmi = weight/cmheight;
+		JOptionPane.showMessageDialog(frame, message);
+		CheckBmi(bmi);
+		GenderAnalysis(bmi,genderData);
+		return bmi;
 	}
 }

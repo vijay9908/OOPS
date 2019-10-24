@@ -61,6 +61,9 @@ public class Validation extends JFrame {
 					bmiCalculator frame = new bmiCalculator();
 					
 				}
+				else {
+					JOptionPane.showMessageDialog(null, "Invalid Credentials !!");
+				}
 				
 			}
 		});
@@ -68,6 +71,18 @@ public class Validation extends JFrame {
 		btnSignUp = new JButton("Sign Up");
 		btnSignUp.setBounds(162, 200, 117, 29);
 		contentPane.add(btnSignUp);
+		btnSignUp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				@SuppressWarnings("unused")
+				Register frame3 = new Register();
+				frame3.setVisible(true);
+				
+				
+			}
+		});
 		
 		JRadioButton rdbtnStayLoggedIn = new JRadioButton("Stay Logged in");
 		rdbtnStayLoggedIn.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
